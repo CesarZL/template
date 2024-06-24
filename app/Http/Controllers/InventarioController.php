@@ -43,7 +43,6 @@ class InventarioController extends Controller
         // validar los datos
         $request->validate([
             'producto_id' => 'required',
-            'fecha' => 'required',
             'motivo' => 'required',
             'cantidad' => 'required',
         ]);

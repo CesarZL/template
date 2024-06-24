@@ -35,7 +35,7 @@
                                 wire:model="password"
                                 wire:keydown.enter="deleteUser" />
 
-                    <x-input-error for="password" class="mt-2" />
+                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
             </x-slot>
 

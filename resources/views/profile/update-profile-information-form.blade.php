@@ -12,14 +12,14 @@
         <div class="col-span-6 sm:col-span-4">
             <x-label for="name" value="{{ __('Nombre') }}" />
             <x-input id="name" type="text" class="mt-1 block w-full" wire:model="state.name" required autocomplete="name" />
-            <x-input-error for="name" class="mt-2" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Correo Electrónico -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="email" value="{{ __('Correo Electrónico') }}" />
             <x-input id="email" type="email" class="mt-1 block w-full" wire:model="state.email" required autocomplete="username" />
-            <x-input-error for="email" class="mt-2" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
     </x-slot>
 

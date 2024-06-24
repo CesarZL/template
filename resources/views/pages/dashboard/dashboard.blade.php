@@ -7,7 +7,7 @@
         <!-- Cards -->
         <div class="grid grid-cols-12 gap-6">
 
-            {{-- <!-- Line chart (Acme Plus) -->
+            <!-- Line chart (Acme Plus) -->
             <x-dashboard.dashboard-card-01 :dataFeed="$dataFeed" />
 
             <!-- Line chart (Acme Advanced) -->
@@ -35,16 +35,13 @@
             <x-dashboard.dashboard-card-09 />
 
             <!-- Card (Customers)  -->
-            <x-dashboard.dashboard-card-10 />
-
-            <!-- Card (Reasons for Refunds)   -->
-            <x-dashboard.dashboard-card-11 />             
+            <x-dashboard.dashboard-card-10 />            
 
             <!-- Card (Recent Activity) -->
             <x-dashboard.dashboard-card-12 />
             
             <!-- Card (Income/Expenses) -->
-            <x-dashboard.dashboard-card-13 /> --}}
+            <x-dashboard.dashboard-card-13 />
 
         </div>
 

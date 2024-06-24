@@ -5,6 +5,7 @@ import { Chart } from 'chart.js';
 
 // Import flatpickr
 import flatpickr from 'flatpickr';
+import { Spanish } from "flatpickr/dist/l10n/es.js"
 
 // import component from './components/component';
 import dashboardCard01 from './components/dashboard-card-01';
@@ -81,26 +82,26 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+
   // Flatpickr
   flatpickr('.datepicker', {
-    mode: 'range',
+    mode: 'single',
     static: true,
     monthSelectorType: 'static',
-    dateFormat: 'M j, Y',
-    defaultDate: [new Date().setDate(new Date().getDate() - 6), new Date()],
-    prevArrow: '<svg class="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M5.4 10.8l1.4-1.4-4-4 4-4L5.4 0 0 5.4z" /></svg>',
-    nextArrow: '<svg class="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M1.4 10.8L0 9.4l4-4-4-4L1.4 0l5.4 5.4z" /></svg>',
-    onReady: (selectedDates, dateStr, instance) => {
-      // eslint-disable-next-line no-param-reassign
-      instance.element.value = dateStr.replace('to', '-');
-      const customClass = instance.element.getAttribute('data-class');
-      instance.calendarContainer.classList.add(customClass);
-    },
-    onChange: (selectedDates, dateStr, instance) => {
-      // eslint-disable-next-line no-param-reassign
-      instance.element.value = dateStr.replace('to', '-');
-    },
+    maxDate: 'today',
+    dateFormat: "Y-m-d",
+    locale: Spanish,
   });
+
+  // busca la clase flatpickr-wrapper y agrega la clase w-full
+  const flatpickrWrapper = document.querySelector('.flatpickr-wrapper');
+  if (flatpickrWrapper) {
+    flatpickrWrapper.classList.add('w-full');
+  }
+
+
+
   dashboardCard01();
   dashboardCard02();
   dashboardCard03();

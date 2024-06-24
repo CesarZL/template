@@ -8,7 +8,7 @@
                     <img class="dark:hidden" src="{{ asset('images/404-illustration.svg') }}" width="176" height="176" alt="Ilustración de error 404" />
                     <img class="hidden dark:block" src="{{ asset('images/404-illustration-dark.svg') }}" width="176" height="176" alt="Ilustración de error 404 en modo oscuro" />                        
                 </div>
-                <div class="mb-6">Hmm... esta página no existe. ¡Intenta buscar otra cosa!</div>
+                <div class="mb-6">Hmm... esta página no existe. ¡Intenta buscar otra cosa! </div>
                 <a href="{{ route('dashboard') }}" class="btn bg-indigo-500 hover:bg-indigo-600 text-white">Volver al dashboard</a>
             </div>
 

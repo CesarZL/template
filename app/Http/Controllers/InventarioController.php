@@ -26,11 +26,9 @@ class InventarioController extends Controller
     public function create()
     {
         $productos = Producto::all();
-        $categorias = Categoria::all();
         return view('pages/inventarios.create',
             [
                 'productos' => $productos,
-                'categorias' => $categorias
             ]
         );
     }
@@ -40,23 +38,36 @@ class InventarioController extends Controller
      */
     public function store(Request $request)
     {
-        // validar los datos
+        // Validar los datos
         $request->validate([
             'producto_id' => 'required',
             'motivo' => 'required',
             'cantidad' => 'required',
         ]);
-
-        $inventario = new Inventario();
-        $inventario->producto_id = $request->input('producto_id');
-        $inventario->fecha_entrada = now();
-        $inventario->movimiento = 'Entrada'; // 'Entrada' o 'Salida
-        $inventario->motivo = $request->input('motivo');
-        $inventario->cantidad = $request->input('cantidad');
-        $inventario->save();
-
+    
+        // Buscar si ya existe una entrada en el inventario para este producto
+        $producto_id = $request->input('producto_id');
+        $inventario = Inventario::where('producto_id', $producto_id)->first();
+    
+        if ($inventario) {
+            // Si existe, actualizar la cantidad
+            $inventario->cantidad += $request->input('cantidad');
+            $inventario->save();
+        } else {
+            // Si no existe, crear una nueva entrada en el inventario
+            $inventario = new Inventario();
+            $inventario->producto_id = $producto_id;
+            $inventario->fecha_entrada = now();
+            $inventario->movimiento = 'Entrada'; // 'Entrada' o 'Salida'
+            $inventario->motivo = $request->input('motivo');
+            $inventario->cantidad = $request->input('cantidad');
+            $inventario->save();
+        }
+    
         return redirect()->route('inventarios.index');
     }
+    
+    
 
     /**
      * Display the specified resource.
@@ -93,34 +104,51 @@ class InventarioController extends Controller
      */
     public function update(Request $request, Inventario $inventario)
     {
-        // validar los datos
+        // Validar los datos
         $request->validate([
             'producto_id' => 'required',
-            'movimiento' => 'required',
             'motivo' => 'required',
-            'cantidad' => 'required',
+            'cantidad' => 'required|integer|min:0',
         ]);
-
-        $cantidad = Inventario::where('id', $inventario->id)->first()->cantidad;
-        // revisa que el producto tenga suficiente cantidad en inventario para quitarse, sino retorna un error
-        if ($request->input('movimiento') == 'Salida' && $cantidad < $request->input('cantidad')) {
-            return back()->withErrors(['cantidad' => 'No hay suficiente cantidad en inventario para realizar la salida'])->withInput();
+    
+        // Obtener la cantidad actual en el inventario
+        $cantidadActual = $inventario->cantidad;
+    
+        // Determinar el movimiento automáticamente
+        $cantidadNueva = $request->input('cantidad');
+        $diferencia = $cantidadNueva - $cantidadActual;
+    
+        if ($diferencia > 0) {
+            // Si la diferencia es positiva, es una entrada
+            $inventario->movimiento = 'Entrada';
+            $inventario->cantidad = $cantidadActual + $diferencia;
+        } elseif ($diferencia < 0) {
+            // Si la diferencia es negativa, es una salida
+    
+            // Revisar que haya suficiente cantidad en inventario para la salida
+            if ($cantidadActual + $diferencia < 0) {
+                return back()->withErrors(['cantidad' => 'No hay suficiente cantidad en inventario para realizar la salida'])->withInput();
+            }
+    
+            $inventario->movimiento = 'Salida';
+            $inventario->cantidad = $cantidadActual + $diferencia;
+        } else {
+            // Si la diferencia es cero, no se hace ningún cambio en la cantidad ni en el movimiento
+            // En este caso, se puede considerar cualquier movimiento válido, por ejemplo, 'Ajuste'
+            $inventario->movimiento = 'Ajuste'; // Puedes ajustar este valor según tus necesidades
         }
-
-        if ($request->input('movimiento') == 'Salida') {
-            $inventario->fecha_salida = now();
-            $inventario->cantidad = $cantidad - $request->input('cantidad');
-        }else{
-            $inventario->fecha_entrada = now();
-            $inventario->cantidad = $cantidad + $request->input('cantidad');
-        }
-
+    
+        // Actualizar los demás datos del inventario
         $inventario->producto_id = $request->input('producto_id');
-        $inventario->movimiento = $request->input('movimiento');
         $inventario->motivo = $request->input('motivo');
+        $inventario->fecha_entrada = now(); // Opcional: Puedes ajustar la fecha según sea necesario
         $inventario->save();
+    
         return redirect()->route('inventarios.index');
     }
+    
+    
+    
 
     /**
      * Remove the specified resource from storage.

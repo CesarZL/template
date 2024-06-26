@@ -9,5 +9,23 @@ class Cotizacion extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['producto_id', 'cliente_id', 'fecha_cot', 'Vigencia', 'comentarios'];
+    protected $table = 'cotizaciones';
+
+    protected $fillable = ['cliente_id', 'fecha_cot', 'vigencia', 'comentarios'];
+
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class);
+    }
+
+    public function productos()
+    {
+        return $this->belongsToMany(Producto::class, 'cotizacion_producto')
+                    ->withPivot('cantidad')
+                    ->withTimestamps();
+    }
+    
+    
+
+
 }

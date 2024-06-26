@@ -9,7 +9,6 @@
                     <div class="mb-4">
                         <x-input-label for="producto_id" :value="__('Producto')" />
                         <x-select-input id="producto_id" class="block mt-1 w-full" name="producto_id" :value="old('producto_id')" disabled>
-                            <option value="" disabled selected>{{ __('Selecciona un producto') }}</option>
                             @foreach ($productos as $producto)
                                 <option value="{{ $producto->id }}" {{ $inventario->producto_id == $producto->id ? 'selected' : '' }}>{{ $producto->nombre }}</option>
                             @endforeach

@@ -94,13 +94,25 @@ document.addEventListener('DOMContentLoaded', () => {
     locale: Spanish,
   });
 
-  // busca la clase flatpickr-wrapper y agrega la clase w-full
-  const flatpickrWrapper = document.querySelector('.flatpickr-wrapper');
-  if (flatpickrWrapper) {
-    flatpickrWrapper.classList.add('w-full');
+  // Flatpickr 2
+  flatpickr('.datepicker2', {
+    mode: 'single',
+    static: true,
+    monthSelectorType: 'static',
+    dateFormat: "Y-m-d",
+    locale: Spanish,
+  });
+
+  // busca todas las clases flatpickr-wrapper y agrega la clase w-full
+  const flatpickrWrappers = document.querySelectorAll('.flatpickr-wrapper');
+  if (flatpickrWrappers.length > 0) {
+    flatpickrWrappers.forEach((flatpickrWrapper) => {
+      flatpickrWrapper.classList.add('w-full');
+    });
   }
 
 
+    
 
   dashboardCard01();
   dashboardCard02();

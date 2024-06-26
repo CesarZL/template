@@ -21,4 +21,9 @@ class Inventario extends Model
         return $this->belongsTo(Categoria::class);
     }
 
+    public function compra()
+    {
+        return $this->belongsTo(Compra::class);
+    }
+
 }

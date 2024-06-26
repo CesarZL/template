@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('precio', 8, 2);
             $table->date('fecha_compra');
             $table->decimal('descuento', 8, 2)->nullable();
+            $table->decimal('total', 8, 2)->nullable();
             $table->timestamps();
         });
     }

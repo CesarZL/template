@@ -20,33 +20,35 @@ $table->timestamps(); --}}
                         <table class="min-w-full bg-white dark:bg-slate-800">
                             <thead class="bg-gray-200 dark:bg-slate-700">
                                 <tr>
-                                    <th class="w-1/3 px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Producto</th>
-                                    <th class="w-1/3 px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Cliente</th>
-                                    <th class="w-1/3 px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Fecha de cotización</th>
-                                    <th class="w-1/3 px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Vigencia</th>
-                                    <th class="w-1/3 px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Comentarios</th>
-                                    <th class="w-1/3 px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Acciones</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Producto</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Cliente</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Fecha de cotización</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Vigencia</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Comentarios</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-gray-100 dark:bg-slate-900/50 divide-y divide-gray-200 dark:divide-slate-700">
-                                
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">Cliente</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">Producto</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">Fecha de cotización</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">Vigencia</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">Comentarios</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="" class="text-blue-600 hover:text-blue-900">Ver</a>
-                                        <a href="" class="text-yellow-600 hover:text-yellow-900 ml-4">Editar</a>
-                                        <form action="" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900 ml-4">Borrar</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            
+                                @foreach ($cotizaciones as $cotizacion)
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <a class="text-blue-600 hover:text-blue-700" href="{{ route('cotizaciones.detail', $cotizacion->id) }}">Ir a detalle</a>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $cotizacion->cliente->nombre }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $cotizacion->fecha_cot }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $cotizacion->vigencia }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $cotizacion->comentarios }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a class="text-blue-600 hover:text-blue-900" href="{{ route('cotizaciones.show', $cotizacion->id) }}">Ver</a>
+                                            <a class="text-yellow-600 hover:text-yellow-900 ml-4" href="{{ route('cotizaciones.edit', $cotizacion->id) }}">Editar</a>
+                                            <form method="POST" class="inline" action="{{ route('cotizaciones.destroy', $cotizacion->id) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-600 hover:text-red-900 ml-4">Borrar</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

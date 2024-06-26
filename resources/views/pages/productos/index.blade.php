@@ -13,9 +13,10 @@
                         <table class="min-w-full bg-white dark:bg-slate-800">
                             <thead class="bg-gray-200 dark:bg-slate-700">
                                 <tr>
-                                    <th class="w-1/3 px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Nombre</th>
-                                    <th class="w-1/3 px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Descripción Corta</th>
-                                    <th class="w-1/3 px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Descripción Larga</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Nombre</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Fecha de compra</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Descripción Corta</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Descripción Larga</th>
                                     <th class="w-1/6 px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Precio Compra</th>
                                     <th class="w-1/6 px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Precio Venta</th>
                                     <th class="w-1/6 px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Categoria</th>
@@ -27,6 +28,7 @@
                                 @foreach ($productos as $producto)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $producto->nombre }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $producto->ultima_compra }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $producto->descripcion_corta }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $producto->descripcion_larga }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $producto->precio_compra }}</td>

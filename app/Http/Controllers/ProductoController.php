@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Compra;
 use App\Models\Producto;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
@@ -16,6 +17,17 @@ class ProductoController extends Controller
         // buscar en la base de datos todos los productos
         $productos = Producto::all();
 
+        // buscar la ultima compra del producto en el modelo compras
+        $compras = Compra::all();
+        foreach ($productos as $producto) {
+            $compra = $compras->where('producto_id', $producto->id)->last();
+            if ($compra) {
+                $producto->ultima_compra = $compra->fecha_compra;
+            } else {
+                $producto->ultima_compra = 'No hay compras';
+            }
+        }      
+        
         return view('pages/productos.index', [
             'productos' => $productos
         ]);

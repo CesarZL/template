@@ -12,7 +12,7 @@
                             <x-select-input id="producto_id" class="block mt-1 w-full" name="producto_id" :value="old('producto_id')" >
                                 <option value="" disabled selected>{{ __('Selecciona un producto') }}</option>
                                 @foreach ($productos as $producto)
-                                    <option value="{{ $producto->id }}">{{ $producto->nombre }}</option>
+                                    <option value="{{ $producto->id }}" {{ old('producto_id') == $producto->id ? 'selected' : '' }}>{{ $producto->nombre }}</option>
                                 @endforeach
                             </x-select-input>
                             <x-input-error :messages="$errors->get('producto_id')" class="mt-2" />

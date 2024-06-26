@@ -28,5 +28,12 @@ class Producto extends Model
     {
         return $this->hasMany(Inventario::class);
     }
+
+    //relacion muchos a muchos
+    public function cotizaciones()
+    {
+        return $this->belongsToMany(Cotizacion::class)->withPivot('cantidad');
+    }
+    
 }
 

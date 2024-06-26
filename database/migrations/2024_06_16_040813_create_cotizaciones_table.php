@@ -13,11 +13,19 @@ return new class extends Migration
     {
         Schema::create('cotizaciones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('producto_id')->constrained()->onDelete('cascade');
             $table->foreignId('cliente_id')->constrained()->onDelete('cascade');
             $table->date('fecha_cot');
-            $table->integer('Vigencia');
+            $table->date('vigencia'); // Cambiado a tipo date
             $table->text('comentarios')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('cotizacion_producto', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('cotizacion_id')->constrained('cotizaciones')->onDelete('cascade');
+            $table->foreignId('producto_id')->constrained()->onDelete('cascade');
+            $table->integer('cantidad');
+            // Puedes agregar más columnas según tus necesidades
             $table->timestamps();
         });
     }
@@ -27,6 +35,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('cotizacion_producto');
         Schema::dropIfExists('cotizaciones');
     }
 };

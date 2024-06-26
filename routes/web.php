@@ -114,6 +114,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/cotizaciones', [CotizacionController::class, 'index'])->name('cotizaciones.index');
     Route::get('/cotizaciones/create', [CotizacionController::class, 'create'])->name('cotizaciones.create');
     Route::post('/cotizaciones', [CotizacionController::class, 'store'])->name('cotizaciones.store');
+    Route::get('/cotizaciones/detail/{cotizacion}', [CotizacionController::class, 'detail'])->name('cotizaciones.detail');
     Route::get('/cotizaciones/{cotizacion}', [CotizacionController::class, 'show'])->name('cotizaciones.show');
     Route::get('/cotizaciones/{cotizacion}/edit', [CotizacionController::class, 'edit'])->name('cotizaciones.edit');
     Route::put('/cotizaciones/{cotizacion}', [CotizacionController::class, 'update'])->name('cotizaciones.update');

@@ -87,15 +87,8 @@
                         </a>
                     </li>
 
-                    <!-- Ventas -->
-                    <li class="hover:cursor-pointer px-1 py-2 rounded-md mb-0.5 last:mb-0 @if(in_array(Request::segment(1), ['ventas'])){{ 'bg-slate-900' }}@endif" x-data="{ open: {{ in_array(Request::segment(1), ['ventas']) ? 1 : 0 }} }">
-                        <a class="block text-slate-200 hover:text-white truncate transition duration-150 @if(in_array(Request::segment(1), ['ventas'])){{ 'hover:text-slate-200' }}@endif" href="{{ route('ventas.index') }}">
-                            <span class="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Ventas</span>
-                        </a>
-                    </li>
-
                     <!-- Compras -->
-                    <li class="hover:cursor-pointer px-1 py-2 rounded-md mb-0.5 last:mb-0 @if(in_array(Request::segment(1), ['compras'])){{ 'bg-slate-900' }}@endif" x-data="{ open: {{ in_array(Request::segment(1), ['compras']) ? 1 : 0 }} }">
+                    <li class="bg-green-300/20 hover:cursor-pointer px-1 py-2 rounded-md mb-0.5 last:mb-0 @if(in_array(Request::segment(1), ['compras'])){{ 'bg-slate-900' }}@endif" x-data="{ open: {{ in_array(Request::segment(1), ['compras']) ? 1 : 0 }} }">
                         <a class="block text-slate-200 hover:text-white truncate transition duration-150 @if(in_array(Request::segment(1), ['compras'])){{ 'hover:text-slate-200' }}@endif" href="{{ route('compras.index') }}">
                             <span class="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Compras</span>
                         </a>
@@ -112,6 +105,13 @@
                     <li class="hover:cursor-pointer px-1 py-2 rounded-md mb-0.5 last:mb-0 @if(in_array(Request::segment(1), ['vendedores'])){{ 'bg-slate-900' }}@endif" x-data="{ open: {{ in_array(Request::segment(1), ['vendedores']) ? 1 : 0 }} }">
                         <a class="block text-slate-200 hover:text-white truncate transition duration-150 @if(in_array(Request::segment(1), ['vendedores'])){{ 'hover:text-slate-200' }}@endif" href="{{ route('vendedores.index') }}">
                             <span class="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Vendedores</span>
+                        </a>
+                    </li>
+
+                    <!-- Ventas -->
+                    <li class="hover:cursor-pointer px-1 py-2 rounded-md mb-0.5 last:mb-0 @if(in_array(Request::segment(1), ['ventas'])){{ 'bg-slate-900' }}@endif" x-data="{ open: {{ in_array(Request::segment(1), ['ventas']) ? 1 : 0 }} }">
+                        <a class="block text-slate-200 hover:text-white truncate transition duration-150 @if(in_array(Request::segment(1), ['ventas'])){{ 'hover:text-slate-200' }}@endif" href="{{ route('ventas.index') }}">
+                            <span class="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Ventas</span>
                         </a>
                     </li>
                 </ul>

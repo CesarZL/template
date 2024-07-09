@@ -33,15 +33,17 @@
                             <x-input-label for="productos" :value="__('Productos')" />
                             @foreach ($productos as $producto)
                                 <div class="flex items-center mb-2">
-                                    <input type="checkbox" id="producto_{{ $producto->id }}" name="productos[]" value="{{ $producto->id }}" class="hidden peer">
+                                    <input type="checkbox" id="producto_{{ $producto->id }}" name="productos[]" value="{{ $producto->id }}" class="hidden peer"
+                                           {{ in_array($producto->id, old('productos', [])) ? 'checked' : '' }}>
                                     <label for="producto_{{ $producto->id }}" class="inline-flex items-center justify-between w-2/3 py-2 px-3 cursor-pointer form-input peer-checked:border-indigo-500 dark:peer-checked:text-gray-300 peer-checked:text-gray-600">
                                         <span>{{ $producto->nombre }}</span>
                                     </label>
-                                    <input id="cantidad_{{ $producto->id }}" class="ml-4 w-1/3   form-input" type="number" name="cantidades[{{ $producto->id }}]" value="old('cantidades.'.$producto->id)" placeholder="{{ __('Cantidad') }}" />
+                                    <input id="cantidad_{{ $producto->id }}" class="ml-4 w-1/3 form-input" type="number" name="cantidades[{{ $producto->id }}]" 
+                                           value="{{ old('cantidades.'.$producto->id, '') }}" placeholder="{{ __('Cantidad') }}" />
                                 </div>
                             @endforeach
                             <x-input-error :messages="$errors->get('productos')" class="mt-2" />
-                        </div>
+                        </div>                        
 
                         <div class="flex justify-end">
                             <x-primary-button>

@@ -9,5 +9,13 @@ class Vendedor extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['telefono', 'curp', 'user_id'];
+    protected $table = 'vendedores';
+
+    protected $fillable = ['telefono', 'user_id'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
 }

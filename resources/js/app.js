@@ -100,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     static: true,
     monthSelectorType: 'static',
     dateFormat: "Y-m-d",
+    minDate: 'today',
     locale: Spanish,
   });
 
@@ -110,8 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
       flatpickrWrapper.classList.add('w-full');
     });
   }
-
-
     
 
   dashboardCard01();

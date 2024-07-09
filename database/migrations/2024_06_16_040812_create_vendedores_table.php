@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('vendedores', function (Blueprint $table) {
             $table->id();
             $table->string('telefono');
-            $table->string('curp');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });

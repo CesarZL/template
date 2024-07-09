@@ -147,15 +147,23 @@ class CotizacionController extends Controller
      */
     public function update(Request $request, Cotizacion $cotizacion)
     {
+        // Validación personalizada para verificar al menos un producto seleccionado
         $request->validate([
-            'cliente_id' => 'required|exists:clientes,id',
+            'cliente_id' => 'required',
             'fecha_cot' => 'required|date',
             'vigencia' => 'required|date',
             'comentarios' => 'nullable|string',
-            'productos' => 'nullable|array',
-            'cantidades' => 'nullable|array',
+            'productos' => 'required|array|min:1', // Al menos un producto debe estar presente
         ]);
-    
+
+        // si algun producto fue seleccionado pero no se ingreso cantidad se debe mostrar un error
+        foreach ($request->productos as $key => $producto_id) {
+            if (isset($request->cantidades[$producto_id]) && $request->cantidades[$producto_id] == 0) {
+                return redirect()->back()->withErrors(['productos' => 'Ingresa una cantidad mayor a 0 para el producto seleccionado.'])->withInput();
+            }
+        }
+
+
         // Actualizar los datos básicos de la cotización
         $cotizacion->update([
             'cliente_id' => $request->cliente_id,

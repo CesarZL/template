@@ -16,9 +16,9 @@ $table->timestamps(); --}}
             <div class="bg-white dark:bg-slate-800 shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-200">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-2xl font-semibold leading-tight">Vendedores</h2>
-                        <x-link-button :href="route('vendedores.create')">
-                            Nuevo vendedor
+                        <h2 class="text-2xl font-semibold leading-tight">Ventas</h2>
+                        <x-link-button :href="route('ventas.create')">
+                            Nueva venta
                         </x-link-button>
                     </div>
                     <div class=" overflow-x-auto">

@@ -74,7 +74,12 @@ class CotizacionController extends Controller
         $cotizacion->cliente_id = $request->cliente_id;
         $cotizacion->fecha_cot = now(); // Puedes ajustar la fecha según tu lógica
         $cotizacion->vigencia = $request->vigencia;
-        $cotizacion->comentarios = $request->comentarios;
+        // $cotizacion->comentarios = $request->comentarios;
+        if ($request->comentarios) {
+            $cotizacion->comentarios = $request->comentarios;
+        }else{
+            $cotizacion->comentarios = 'Ninguno';
+        }
         $cotizacion->save();
     
         // Guardar los productos seleccionados con cantidades

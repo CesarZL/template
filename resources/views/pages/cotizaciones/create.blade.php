@@ -89,6 +89,7 @@
                             <div class="mb-4">
                                 <x-input-label for="vigencia" :value="__('Vigencia')" />
                                 <x-datepicker-no-limit id="vigencia" class="block w-full" name="vigencia" :value="old('vigencia')" />
+                                <x-input-error :messages="$errors->get('vigencia')" class="mt-2" />
                             </div>
 
                             <div class="mb-4">

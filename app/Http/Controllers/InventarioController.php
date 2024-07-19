@@ -15,6 +15,11 @@ class InventarioController extends Controller
     public function index()
     {
         $inventarios = Inventario::all();
+
+        $title = 'Borrar entrada en inventario';
+        $text = "¿Estás seguro de que quieres borrar esta entrada en el inventario?";
+        confirmDelete($title, $text);
+
         return view('pages/inventarios.index', [
             'inventarios' => $inventarios
         ]);
@@ -156,6 +161,7 @@ class InventarioController extends Controller
     public function destroy(Inventario $inventario)
     {
         $inventario->delete();
+        alert()->success('Entrada en inventario eliminada con éxito');
         return redirect()->route('inventarios.index');
     }
 }

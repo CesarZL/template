@@ -1,18 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DataFeedController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\VentaController;
-use App\Http\Controllers\InventarioController;
-use App\Http\Controllers\ClienteController;
-use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\CompraController;
-use App\Http\Controllers\ProveedorController;
-use App\Http\Controllers\FormaDePagoController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\DataFeedController;
+use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\VendedorController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\CotizacionController;
+use App\Http\Controllers\InventarioController;
+use App\Http\Controllers\FormaDePagoController;
 
 
 /*
@@ -39,6 +40,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
        return view('pages/test/test');
     })->name('test');
 
+    Route::get('/reportes/ventas', [ReporteController::class, 'reporteVentas'])->name('reportes.ventas');
+    Route::get('/reportes/ventas-por-categoria', [ReporteController::class, 'reporteVentasPorCategoria'])->name('reportes.ventas-por-categoria');
+    Route::get('/reportes/ventas-por-cliente', [ReporteController::class, 'reporteVentasPorCliente'])->name('reportes.ventas-por-cliente');
+    Route::get('/reportes/clientes', [ReporteController::class, 'reporteClientes'])->name('reportes.clientes');
+    Route::get('/reportes/proovedores', [ReporteController::class, 'reporteProveedores'])->name('reportes.proveedores');
+    Route::get('/reportes/productos', [ReporteController::class, 'reporteProductos'])->name('reportes.productos');
+    Route::get('/reportes/stock', [ReporteController::class, 'reporteStock'])->name('reportes.stock');
+    Route::get('/reportes/compras', [ReporteController::class, 'reporteCompras'])->name('reportes.compras');
+
     Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
     Route::get('/productos/create', [ProductoController::class, 'create'])->name('productos.create');
     Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');
@@ -50,6 +60,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.index');
     Route::get('/ventas/create', [VentaController::class, 'create'])->name('ventas.create');
     Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store');
+    Route::get('/ventas/detail/{venta}', [VentaController::class, 'detail'])->name('ventas.detail');
     Route::get('/ventas/{venta}', [VentaController::class, 'show'])->name('ventas.show');
     Route::get('/ventas/{venta}/edit', [VentaController::class, 'edit'])->name('ventas.edit');
     Route::put('/ventas/{venta}', [VentaController::class, 'update'])->name('ventas.update');
@@ -119,6 +130,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/cotizaciones/{cotizacion}/edit', [CotizacionController::class, 'edit'])->name('cotizaciones.edit');
     Route::put('/cotizaciones/{cotizacion}', [CotizacionController::class, 'update'])->name('cotizaciones.update');
     Route::delete('/cotizaciones/{cotizacion}', [CotizacionController::class, 'destroy'])->name('cotizaciones.destroy');
+
 
     Route::fallback(function() {
         return view('pages/utility/404');

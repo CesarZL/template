@@ -15,6 +15,12 @@ class VendedorController extends Controller
     public function index()
     {
         $vendedores = Vendedor::all();
+
+        $title = 'Borrar vendedor';
+        $text = "¿Estás seguro de que quieres borrar a este vendedor?";
+        confirmDelete($title, $text);
+
+
         return view('pages/vendedores.index',
             ['vendedores' => $vendedores]
         );
@@ -114,6 +120,9 @@ class VendedorController extends Controller
     {
         $vendedor->user->delete();
         $vendedor->delete();
+
+        alert()->success('Vendedor eliminado con éxito');
+        
         return redirect()->route('vendedores.index');
     }
 }

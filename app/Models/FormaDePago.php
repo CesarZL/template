@@ -12,4 +12,11 @@ class FormaDePago extends Model
     protected $table = 'forma_de_pago';
 
     protected $fillable = ['tipo'];
+
+    public function ventas()
+    {
+        return $this->hasMany(Venta::class);
+    }
+
+    
 }

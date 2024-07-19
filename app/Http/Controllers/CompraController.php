@@ -17,6 +17,12 @@ class CompraController extends Controller
     public function index()
     {
         $compras = Compra::all();
+
+        $title = 'Borrar compra';
+        $text = "¿Estás seguro de que quieres borrar esta compra?";
+        confirmDelete($title, $text);
+
+
         return view('pages/compras.index', [
             'compras' => $compras
         ]);
@@ -70,6 +76,9 @@ class CompraController extends Controller
         $producto = Inventario::where('producto_id', $request->input('producto_id'))->first();
         if ($producto) {
             $producto->cantidad += $request->input('cantidad');
+            $producto->fecha_entrada = now();
+            $producto->movimiento = 'Entrada';
+            $producto->motivo = 'Compra';
             $producto->save();
         } else {
             $producto = new Inventario();
@@ -202,6 +211,7 @@ class CompraController extends Controller
         // Eliminar la compra
         $compra->delete();
     
+        alert()->success('Compra eliminada con éxito');
         // Redirigir a la lista de compras
         return redirect()->route('compras.index');
     }

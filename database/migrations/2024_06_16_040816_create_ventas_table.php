@@ -13,18 +13,25 @@ return new class extends Migration
     {
         Schema::create('ventas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('vendedor_id')->constrained('vendedores')->onDelete('cascade');
-            $table->foreignId('producto_id')->constrained()->onDelete('cascade');
-            $table->foreignId('categoria_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('cliente_id')->constrained()->onDelete('cascade');
-            $table->date('Fecha de venta');
+            $table->date('fecha_de_venta');
             $table->foreignId('pago_id')->constrained('forma_de_pago')->onDelete('cascade');
-            $table->decimal('Cambio', 8, 2);
-            $table->decimal('Subtotal', 8, 2);
+            $table->decimal('cambio', 8, 2)->nullable()->default(0);
+            $table->decimal('subtotal', 8, 2);
             $table->decimal('IVA', 8, 2);
-            $table->decimal('Total', 8, 2);
+            $table->decimal('total', 8, 2);
             $table->timestamps();
         });
+
+        Schema::create('venta_producto', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('venta_id')->constrained('ventas')->onDelete('cascade');
+            $table->foreignId('producto_id')->constrained()->onDelete('cascade');
+            $table->integer('cantidad');
+            $table->timestamps();
+        });
+
     }
 
     /**

@@ -13,6 +13,11 @@ class ClienteController extends Controller
     public function index()
     {
         $clientes = Cliente::all();
+
+        $title = 'Borrar cliente';
+        $text = "¿Estás seguro de que quieres borrar este cliente?";
+        confirmDelete($title, $text);
+
         return view('pages/clientes.index', [
             'clientes' => $clientes
         ]);
@@ -95,6 +100,7 @@ class ClienteController extends Controller
     public function destroy(Cliente $cliente)
     {
         $cliente->delete();
+        alert()->success('Cliente eliminado con éxito');
         return redirect()->route('clientes.index')->with('success', 'Cliente eliminado exitosamente');
     }
 }

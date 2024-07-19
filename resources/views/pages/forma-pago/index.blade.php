@@ -10,7 +10,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-200">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-2xl font-semibold leading-tight">Formas de pago</h2>
-                        <x-link-button :href="route('forma-pago.create')">
+                        <x-link-button class="btn bg-green-700 hover:bg-green-600 text-white whitespace-nowrap" :href="route('forma-pago.create')">
                             Nueva forma de pago
                         </x-link-button>
                     </div>
@@ -33,11 +33,9 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <a class="text-blue-600 hover:text-blue-900" href="{{ route('forma-pago.show', $formadepago->id) }}">Ver</a>
                                             <a class="text-yellow-600 hover:text-yellow-900 ml-4" href="{{ route('forma-pago.edit', $formadepago->id) }}">Editar</a>
-                                            <form method="POST" class="inline" action="{{ route('forma-pago.destroy', $formadepago->id) }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="text-red-600 hover:text-red-900 ml-4">Borrar</button>
-                                            </form>
+                                            <a href="{{ route('forma-pago.destroy', $formadepago) }}" class="text-red-600 hover:text-red-900 ml-4" data-confirm-delete="true">
+                                                Borrar
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -17,6 +17,11 @@ class CotizacionController extends Controller
     public function index()
     {
         $cotizaciones = Cotizacion::all();
+
+        $title = 'Borrar cotización';
+        $text = "¿Estás seguro de que quieres borrar esta cotización?";
+        confirmDelete($title, $text);
+
         return view('pages/cotizaciones.index', [
             'cotizaciones' => $cotizaciones
         ]);
@@ -195,6 +200,7 @@ class CotizacionController extends Controller
     public function destroy(Cotizacion $cotizacion)
     {
         $cotizacion->delete();
+        alert()->success('Cotización eliminada con éxito');
         return redirect()->route('cotizaciones.index');
     }
 }

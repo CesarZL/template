@@ -15,6 +15,12 @@ class FormaDePagoController extends Controller
     public function index()
     {
         $formasdepago = FormaDePago::all();
+
+        $title = 'Borrar forma de pago';
+        $text = "¿Estás seguro de que quieres borrar esta forma de pago?";
+        confirmDelete($title, $text);
+
+
         return view('pages/forma-pago.index', [
             'formasdepago' => $formasdepago
         ]);
@@ -79,6 +85,7 @@ class FormaDePagoController extends Controller
     public function destroy(FormaDePago $formaPago)
     {
         $formaPago->delete();
+        alert()->success('Forma de pago eliminada con éxito');
         return redirect()->route('forma-pago.index');
     }
 }

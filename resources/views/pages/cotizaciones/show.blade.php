@@ -1,35 +1,38 @@
 <x-app-layout>
   <div class="max-w-3xl mx-auto p-6 bg-white rounded shadow-sm my-6" id="invoice">
-      <!-- Client info -->
+      <!-- Información de la cotización -->
       <div class="grid grid-cols-2 items-center">
           <div>
-              <p class="font-bold text-gray-800">
-                  Cotización para:	
-              </p>
-              <p class="text-gray-500">
-                  {{ $cotizacion->cliente->nombre }}
-                  <br />
-                  {{ $cotizacion->cliente->telefono }}
-              </p>
-              <p class="text-gray-500">
-                  {{ $cotizacion->cliente->correo }}
-              </p>
+                <p class="font-bold text-gray-800">Cotización para:	</p>
+                {{-- <p class="text-gray-500">{{ $cotizacion->cliente->nombre }}</p>
+                <p class="text-gray-500">{{ $cotizacion->cliente->telefono }}</p>
+                <p class="text-gray-500">{{ $cotizacion->cliente->correo }}</p> --}}
+                <p class="text-gray-800">Cliente:  <span class="text-gray-500">{{ $cotizacion->cliente->nombre }}</span></p>
+                <p class="text-gray-800">Teléfono:  <span class="text-gray-500">{{ $cotizacion->cliente->telefono }}</span></p>
+                <p class="text-gray-800">Email:  <span class="text-gray-500">{{ $cotizacion->cliente->correo }}</span></p>
+
           </div>
 
           <div class="text-right">
-              <p class="">
-                  Cotización número:
-                  <span class="text-gray-500">{{ $cotizacion->id }}</span>
-              </p>
-              <p>
-                  Fecha de cotización: <span class="text-gray-500">{{ $cotizacion->fecha_cot }}</span>
-                  <br />
-                  Vigencia: <span class="text-gray-500">{{ $cotizacion->vigencia }}</span>
-              </p>
+                <p class="text-gray-800">Cotización número: <span class="text-gray-500">{{ $cotizacion->id }}</span></p>
+                <p class="text-gray-800">Fecha de cotización: <span class="text-gray-500">{{ $cotizacion->fecha_cot }}</span></p>
+                <p class="text-gray-800">Fecha de expiración: <span class="text-gray-500">{{ $cotizacion->vigencia }}</span></p>
           </div>
       </div>
 
-      <!-- Invoice Items -->
+      <!-- Comentarios -->
+      <div class="items-center mt-3">
+        <div>
+            <p class="font-bold text-gray-800">
+                Comentarios:
+            </p>
+            <p class="text-gray-500">
+                {{ $cotizacion->comentarios }}
+            </p>
+        </div>
+    </div>
+
+      <!-- Items -->
       <div class="-mx-4 mt-8 flow-root sm:mx-0">
           <table class="min-w-full">
               <colgroup>

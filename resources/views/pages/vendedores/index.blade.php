@@ -5,7 +5,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-200">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-2xl font-semibold leading-tight">Vendedores</h2>
-                        <x-link-button :href="route('vendedores.create')">
+                        <x-link-button class="btn bg-green-700 hover:bg-green-600 text-white whitespace-nowrap" :href="route('vendedores.create')">
                             Nuevo vendedor
                         </x-link-button>
                     </div>
@@ -30,11 +30,9 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <a class="text-blue-600 hover:text-blue-900"  href="{{ route('vendedores.show', $vendedor) }}">Ver</a>
                                             <a class="text-yellow-600 hover:text-yellow-900 ml-4"  href="{{ route('vendedores.edit', $vendedor) }}">Editar</a>
-                                            <form method="POST" class="inline"  action="{{ route('vendedores.destroy', $vendedor) }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="text-red-600 hover:text-red-900 ml-4">Borrar</button>
-                                            </form>
+                                            <a href="{{ route('vendedores.destroy', $vendedor) }}" class="text-red-600 hover:text-red-900 ml-4" data-confirm-delete="true">
+                                                Borrar
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

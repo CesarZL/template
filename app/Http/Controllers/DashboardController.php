@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Cliente;
 use App\Models\DataFeed;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $dataFeed = new DataFeed();
-
-        return view('pages/dashboard/dashboard', compact('dataFeed'));
+        $clientesTop = Cliente::select('clientes.id', 'clientes.nombre', 'clientes.correo', DB::raw('SUM(ventas.total) as total_gastado'), DB::raw('MAX(ventas.fecha_de_venta) as ultima_compra'))
+            ->join('ventas', 'clientes.id', '=', 'ventas.cliente_id')
+            ->groupBy('clientes.id', 'clientes.nombre', 'clientes.correo')
+            ->orderByDesc('total_gastado')
+            ->take(5)
+            ->get();
+    
+        return view('pages/dashboard/dashboard', compact('clientesTop'));
     }
 
     /**

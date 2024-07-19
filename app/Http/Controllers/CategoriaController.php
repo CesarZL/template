@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categoria;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
@@ -13,6 +14,11 @@ class CategoriaController extends Controller
     public function index()
     {
         $categorias = Categoria::all();
+
+        $title = 'Borrar categoría';
+        $text = "¿Estás seguro de que quieres borrar esta categoría?";
+        confirmDelete($title, $text);
+
         return view('pages/categorias.index', [
             'categorias' => $categorias
         ]);
@@ -79,6 +85,7 @@ class CategoriaController extends Controller
     public function destroy(Categoria $categoria)
     {
         $categoria->delete();
+        alert()->success('Categoría eliminada con éxito');
         return redirect()->route('categorias.index');
     }
 }

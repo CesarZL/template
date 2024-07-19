@@ -15,6 +15,11 @@ class ProveedorController extends Controller
         // buscar en la base de datos todos los productos
         $proveedores = Proveedor::all();
 
+        $title = 'Borrar proveedor';
+        $text = "¿Estás seguro de que quieres borrar este proveedor?";
+        confirmDelete($title, $text);
+
+
         return view('pages/proveedores.index', [
             'proveedores' => $proveedores
         ]);    }
@@ -91,6 +96,8 @@ class ProveedorController extends Controller
         // eliminar de la base de datos
         $proveedor->delete();
 
+        alert()->success('Proveedor eliminado con éxito');
+        
         // redireccionar
         return redirect()->route('proveedores.index');
     }

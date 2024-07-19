@@ -6,6 +6,8 @@ use App\Models\Compra;
 use App\Models\Producto;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class ProductoController extends Controller
 {
@@ -14,6 +16,7 @@ class ProductoController extends Controller
      */
     public function index()
     {
+
         // buscar en la base de datos todos los productos
         $productos = Producto::all();
 
@@ -26,8 +29,12 @@ class ProductoController extends Controller
             } else {
                 $producto->ultima_compra = 'No hay compras';
             }
-        }      
+        }   
         
+        $title = 'Borrar producto';
+        $text = "¿Estás seguro de que quieres borrar este producto?";
+        confirmDelete($title, $text);
+
         return view('pages/productos.index', [
             'productos' => $productos
         ]);
@@ -130,6 +137,8 @@ class ProductoController extends Controller
          // eliminar de la base de datos
          $producto->delete();
 
+         alert()->success('Producto eliminado con éxito');
+         
          // redireccionar
          return redirect()->route('productos.index');
     }

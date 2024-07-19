@@ -25,7 +25,6 @@ return new class extends Migration
             $table->foreignId('cotizacion_id')->constrained('cotizaciones')->onDelete('cascade');
             $table->foreignId('producto_id')->constrained()->onDelete('cascade');
             $table->integer('cantidad');
-            // Puedes agregar más columnas según tus necesidades
             $table->timestamps();
         });
     }

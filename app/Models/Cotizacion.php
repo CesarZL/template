@@ -25,7 +25,4 @@ class Cotizacion extends Model
                     ->withTimestamps();
     }
     
-    
-
-
 }

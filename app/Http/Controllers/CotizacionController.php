@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cliente;
 use App\Models\Producto;
 use App\Models\Cotizacion;
+use App\Models\Inventario;
+use App\Models\FormaDePago;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -33,10 +35,21 @@ class CotizacionController extends Controller
     public function create()
     {
         $clientes = Cliente::all();
+        $formasdepago = FormaDePago::all();
         $productos = Producto::all();
-        return view('pages/cotizaciones.create', [
+        $inventario = Inventario::all();
+
+        // productos con cantidad en inventario en el objeto
+        $productos_inventario = $productos->map(function ($producto) use ($inventario) {
+            $producto->cantidad = $inventario->where('producto_id', $producto->id)->sum('cantidad');
+            return $producto;
+        });
+
+        return view('pages/cotizaciones.create', 
+        [
             'clientes' => $clientes,
-            'productos' => $productos
+            'formasdepago' => $formasdepago,
+            'productos_inventario' => $productos_inventario,
         ]);
     }
 
@@ -49,25 +62,12 @@ class CotizacionController extends Controller
             'cliente_id' => 'required|exists:clientes,id',
             'vigencia' => 'required|date',
             'comentarios' => 'nullable|string',
-            'productos' => 'required|array|min:1', // Al menos un producto debe estar seleccionado
-            'productos.*' => 'sometimes|exists:productos,id', // Permitir algunos productos no seleccionados
-            'cantidades.*' => 'nullable|integer|min:0', // Permitir cantidades de 0
+            'productos' => 'required|array', // Los productos ahora son un array asociativo
+            'productos.*.id' => 'required|exists:productos,id', // Validar que el producto existe
+            'productos.*.cantidad' => 'required|integer|min:1', // Validar que la cantidad es al menos 1
         ], [
-            'productos.min' => 'Selecciona al menos un producto con cantidad mayor a 0.',
+            'productos.*.cantidad.min' => 'Selecciona al menos una cantidad mayor a 0 para cada producto.',
         ]);
-    
-        // Verificar que al menos un producto esté seleccionado con cantidad mayor a 0
-        $valid = false;
-        foreach ($request->productos as $key => $producto_id) {
-            if (isset($request->cantidades[$producto_id]) && $request->cantidades[$producto_id] > 0) {
-                $valid = true;
-                break;
-            }
-        }
-    
-        if (!$valid) {
-            return redirect()->back()->withErrors(['productos' => 'Selecciona al menos un producto con cantidad mayor a 0.'])->withInput();
-        }
     
         // Lógica para crear la cotización
         $cotizacion = new Cotizacion();
@@ -78,11 +78,13 @@ class CotizacionController extends Controller
         $cotizacion->save();
     
         // Guardar los productos seleccionados con cantidades
-        foreach ($request->productos as $producto_id) {
-            if (isset($request->cantidades[$producto_id]) && $request->cantidades[$producto_id] > 0) {
-                $cotizacion->productos()->attach($producto_id, ['cantidad' => $request->cantidades[$producto_id]]);
+        foreach ($request->productos as $producto) {
+            if (isset($producto['id']) && isset($producto['cantidad']) && $producto['cantidad'] > 0) {
+                $cotizacion->productos()->attach($producto['id'], ['cantidad' => $producto['cantidad']]);
             }
         }
+
+        alert()->success('Cotización creada con éxito');
     
         // Redirigir o hacer lo que necesites después de guardar
         return redirect()->route('cotizaciones.index');

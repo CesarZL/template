@@ -25,7 +25,7 @@
             <!-- Header: Right side -->
             <div class="flex items-center space-x-3">
 
-                <x-shopping-cart />
+                {{-- <x-shopping-cart /> --}}
 
                 <!-- Dark mode toggle -->
                 <x-theme-toggle />                

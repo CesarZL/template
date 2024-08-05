@@ -8,6 +8,7 @@ use App\Models\Producto;
 use App\Models\Inventario;
 use App\Models\FormaDePago;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class VentaController extends Controller
 {
@@ -107,8 +108,10 @@ class VentaController extends Controller
             // Reducir el inventario
             $inventario->cantidad -= $cantidad;
             $inventario->fecha_salida = now();
+            $inventario->fecha_entrada = null;
             $inventario->movimiento = 'Salida';
             $inventario->motivo = 'Venta';
+            $inventario->cantidad_movimiento = $cantidad;
             $inventario->save();
     
             // Agregar los detalles de la venta
@@ -142,10 +145,20 @@ class VentaController extends Controller
         ]);
     }
 
+    public function pdf(Venta $venta)
+    {
+        $venta->load('productos');
+        $pdf = PDF::loadView('pages.ventas.pdf', [
+            'venta' => $venta,
+        ]);
+
+        return $pdf->download('ventas.pdf');
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Venta $venta)
     {
         //
     }
@@ -172,8 +185,10 @@ class VentaController extends Controller
             if ($inventario) {
                 $inventario->cantidad += $producto->pivot->cantidad;
                 $inventario->fecha_entrada = now();
+                $inventario->fecha_salida = null;
                 $inventario->movimiento = 'Entrada';
                 $inventario->motivo = 'Venta revertida';
+                $inventario->cantidad_movimiento = $producto->pivot->cantidad;
                 $inventario->save();
             }
         }

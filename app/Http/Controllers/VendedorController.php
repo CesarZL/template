@@ -56,7 +56,7 @@ class VendedorController extends Controller
         ]);
 
         // Create the vendedor associated with the user
-        $vendedor = Vendedor::create([
+        Vendedor::create([
             'telefono' => $validatedData['telefono'],
             'user_id' => $user->id,
         ]);

@@ -62,8 +62,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/ventas', [VentaController::class, 'store'])->name('ventas.store');
     Route::get('/ventas/detail/{venta}', [VentaController::class, 'detail'])->name('ventas.detail');
     Route::get('/ventas/{venta}', [VentaController::class, 'show'])->name('ventas.show');
-    Route::get('/ventas/{venta}/edit', [VentaController::class, 'edit'])->name('ventas.edit');
     Route::put('/ventas/{venta}', [VentaController::class, 'update'])->name('ventas.update');
+    Route::get('/ventas/{venta}/pdf', [VentaController::class, 'pdf'])->name('ventas.pdf');
     Route::delete('/ventas/{venta}', [VentaController::class, 'destroy'])->name('ventas.destroy');
 
     Route::get('/inventarios', [InventarioController::class, 'index'])->name('inventarios.index');
@@ -129,6 +129,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/cotizaciones/{cotizacion}', [CotizacionController::class, 'show'])->name('cotizaciones.show');
     Route::get('/cotizaciones/{cotizacion}/edit', [CotizacionController::class, 'edit'])->name('cotizaciones.edit');
     Route::put('/cotizaciones/{cotizacion}', [CotizacionController::class, 'update'])->name('cotizaciones.update');
+    Route::get('/cotizaciones/{cotizacion}/pdf', [CotizacionController::class, 'pdf'])->name('cotizaciones.pdf');
     Route::delete('/cotizaciones/{cotizacion}', [CotizacionController::class, 'destroy'])->name('cotizaciones.destroy');
 
 

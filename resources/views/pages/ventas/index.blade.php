@@ -50,8 +50,8 @@
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $venta->IVA }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $venta->total }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            {{-- <a href="" class="text-blue-600 hover:text-blue-900">Ver</a> --}}
-                                            <a href="{{ route('ventas.detail', $venta->id) }}" class="text-green-600 hover:text-green-900 ml-4">Ticket</a>
+                                            <a href="{{ route('ventas.detail', $venta->id) }}" class="text-green-600 hover:text-green-900 ml-4">Ver</a>
+                                            <a href="{{ route('ventas.pdf', $venta->id) }}" class="text-blue-600 hover:text-blue-900 ml-4">PDF</a>
                                             <a href="{{ route('ventas.destroy', $venta) }}" class="text-red-600 hover:text-red-900 ml-4" data-confirm-delete="true">
                                                 Borrar
                                             </a>

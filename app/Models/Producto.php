@@ -34,6 +34,12 @@ class Producto extends Model
     {
         return $this->belongsToMany(Cotizacion::class)->withPivot('cantidad');
     }
+
+    //relacion muchos a muchos
+    public function carritos()
+    {
+        return $this->belongsToMany(Carrito::class)->withPivot('cantidad');
+    }
     
 }
 

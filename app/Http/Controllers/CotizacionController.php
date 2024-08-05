@@ -9,6 +9,8 @@ use App\Models\Inventario;
 use App\Models\FormaDePago;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 
 class CotizacionController extends Controller
@@ -116,6 +118,28 @@ class CotizacionController extends Controller
     
         return view('pages.cotizaciones.show', compact('cotizacion', 'subtotal', 'iva', 'total', 'diasVigencia'));
     }
+
+    public function pdf(Cotizacion $cotizacion)
+    {
+          // Calcular subtotal antes de IVA
+          $subtotal = $cotizacion->productos->sum(function ($producto) {
+            return $producto->pivot->cantidad * $producto->precio_venta;
+        });
+
+        $iva = $subtotal / 1.16;
+
+        $subtotal = $subtotal - $iva;
+
+        $total = $subtotal + $iva;
+
+        $diasVigencia = Carbon::parse($cotizacion->vigencia)->diffInDays(now());
+
+
+        $pdf = PDF::loadView('pages.cotizaciones.pdf', compact('cotizacion', 'subtotal', 'iva', 'total', 'diasVigencia'));
+
+        return $pdf->download('cotizaciones.pdf');
+    }
+
     
     public function detail(Cotizacion $cotizacion)
     {
@@ -126,7 +150,6 @@ class CotizacionController extends Controller
             'cotizacion' => $cotizacion,
         ]);
     }
-
     /**
      * Show the form for editing the specified resource.
      */

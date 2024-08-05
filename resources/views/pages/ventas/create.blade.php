@@ -4,7 +4,6 @@
         <div class="flex lg:flex-row flex-col-reverse bg-white dark:bg-slate-800 sm:rounded-lg">
             <!-- left section -->
             <div class="w-full lg:w-3/5 sm:rounded-lg bg-gray-50 dark:bg-gray-700">
-
                 <!-- header -->
                 <div class="flex flex-row justify-between items-center px-5 mt-5">
                     <div class="relative w-full">
@@ -62,6 +61,22 @@
                     <!-- order list -->
                     <div class="mx-5 px-5 py-4 mt-5 overflow-y-auto h-56 border border-slate-600 rounded-md space-y-3" id="carrito">
                         {{-- Los productos del carrito se agregarán aquí dinámicamente --}}
+                        @if(old('productos'))
+                            @foreach(old('productos') as $id => $producto)
+                                <div class="flex flex-row justify-between items-center" id="producto-{{ $id }}">
+                                    <p class="font-semibold">{{ $producto['nombre'] }}</p>
+                                    <div class="w-32 flex ml-auto sm:mr-16 mr-5 justify-between items-center">
+                                        <span class="px-3 py-1 rounded-md bg-gray-100 dark:bg-slate-700 text-gray-800 dark:text-gray-200 hover:bg-red-100 hover:text-red-500 cursor-pointer transition duration-300" onclick="decrementar({{ $id }}, {{ $producto['precio'] }})">-</span>
+                                        <input type="number" class="form-input w-12 text-center appearance-none" value="{{ $producto['cantidad'] }}" style="text-align: center; -moz-appearance: textfield;" name="productos[{{ $id }}][cantidad]" id="cantidad-{{ $id }}" onchange="validarCantidad({{ $id }}, {{ $producto['cantidad'] }})">
+                                        <span class="px-3 py-1 rounded-md bg-gray-100 dark:bg-slate-700 text-gray-800 dark:text-gray-200 hover:bg-green-100 hover:text-green-500 cursor-pointer transition duration-300" onclick="incrementar({{ $id }}, {{ $producto['precio'] }}, {{ $producto['cantidad'] }})">+</span>
+                                    </div>
+                                    <div class="precio" id="precio-{{ $id }}">${{ $producto['precio'] }}</div>
+                                    <input type="hidden" name="productos[{{ $id }}][id]" value="{{ $id }}">
+                                    <input type="hidden" name="productos[{{ $id }}][precio]" value="{{ $producto['precio'] }}">
+                                    <input type="hidden" name="productos[{{ $id }}][nombre]" value="{{ $producto['nombre'] }}">
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
 
                     <!-- totalItems -->
@@ -69,18 +84,18 @@
                         <div class="py-4 rounded-md shadow-lg border border-slate-600">
                             <div class=" px-4 flex justify-between ">
                                 <span class="font-semibold text-sm">Subtotal</span>
-                                <span class="font-bold" id="subtotal">$0.00</span>
-                                <input type="hidden" name="subtotal" value="0">
+                                <span class="font-bold" id="subtotal">${{ old('subtotal', '0.00') }}</span>
+                                <input type="hidden" name="subtotal" value="{{ old('subtotal', '0') }}">
                             </div>
                             <div class="px-4 flex justify-between ">
                                 <span class="font-semibold text-sm">Iva</span>
-                                <span class="font-bold" id="iva">$0.00</span>
-                                <input type="hidden" name="iva" value="0">
+                                <span class="font-bold" id="iva">${{ old('iva', '0.00') }}</span>
+                                <input type="hidden" name="iva" value="{{ old('iva', '0') }}">
                             </div>
                             <div class="px-4 flex items-center justify-between">
                                 <span class="font-semibold text-lg">Total</span>
-                                <span class="font-bold text-lg" id="total">$0.00</span>
-                                <input type="hidden" name="total" value="0">
+                                <span class="font-bold text-lg" id="total">${{ old('total', '0.00') }}</span>
+                                <input type="hidden" name="total" value="{{ old('total', '0') }}">
                             </div>
                         </div>
                     </div>
@@ -92,13 +107,13 @@
                             <select class="form-select w-full dark:bg-[#0f172a]/30" name="pago_id" id="pago_id">
                                 <option value="" disabled selected>{{ __('Selecciona una forma de pago') }}</option>
                                 @foreach ($formasdepago as $formadepago)
-                                    <option value="{{ $formadepago->id }}">{{ $formadepago->tipo }}</option>
+                                    <option value="{{ $formadepago->id }}" {{ old('pago_id') == $formadepago->id ? 'selected' : '' }}>{{ $formadepago->tipo }}</option>
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('pago_id')" class="mt-2" />
 
                             <x-input-label for="monto" class="mt-4 uppercase text-xs font-semibold" :value="__('Monto')" />
-                            <input type="number" disabled class="form-input w-full dark:bg-[#0f172a]/30" name="monto" id="monto" placeholder="Ingrese el monto recibido" />
+                            <input type="number" class="form-input w-full dark:bg-[#0f172a]/30" name="monto" id="monto" placeholder="Ingrese el monto recibido" value="{{ old('monto') }}" {{ old('pago_id') != 3 ? 'disabled' : '' }} />
                             <x-input-error :messages="$errors->get('monto')" class="mt-2" />
                         </div>
                     </div>
@@ -110,7 +125,7 @@
                             <select class="form-select w-full dark:bg-[#0f172a]/30" name="cliente_id" id="cliente_id">
                                 <option value="" disabled selected>{{ __('Selecciona un cliente') }}</option>
                                 @foreach ($clientes as $cliente)
-                                    <option value="{{ $cliente->id }}">{{ $cliente->nombre }}</option>
+                                    <option value="{{ $cliente->id }}" {{ old('cliente_id') == $cliente->id ? 'selected' : '' }}>{{ $cliente->nombre }}</option>
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('cliente_id')" class="mt-2" />
@@ -177,6 +192,7 @@
                                 <div class="precio" id="precio-${id}">$${precioConIva.toFixed(2)}</div>
                                 <input type="hidden" name="productos[${id}][id]" value="${id}">
                                 <input type="hidden" name="productos[${id}][precio]" value="${precioConIva}">
+                                <input type="hidden" name="productos[${id}][nombre]" value="${nombre}">
                             `;
                             carrito.appendChild(itemCarrito);
                             actualizarSubtotal();

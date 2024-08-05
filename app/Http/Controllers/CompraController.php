@@ -73,21 +73,25 @@ class CompraController extends Controller
         $compra->save();
 
         // aumentar la cantidad en el inventario
-        $producto = Inventario::where('producto_id', $request->input('producto_id'))->first();
-        if ($producto) {
-            $producto->cantidad += $request->input('cantidad');
-            $producto->fecha_entrada = now();
-            $producto->movimiento = 'Entrada';
-            $producto->motivo = 'Compra';
-            $producto->save();
+        $inventario = Inventario::where('producto_id', $request->input('producto_id'))->first();
+        if ($inventario) {
+            $inventario->cantidad += $request->input('cantidad');
+            $inventario->fecha_entrada = now();
+            $inventario->fecha_salida = null;
+            $inventario->movimiento = 'Entrada';
+            $inventario->motivo = 'Compra';
+            $inventario->cantidad_movimiento = $request->input('cantidad');
+            $inventario->save();
         } else {
-            $producto = new Inventario();
-            $producto->producto_id = $request->input('producto_id');
-            $producto->fecha_entrada = now();
-            $producto->movimiento = 'Entrada';
-            $producto->motivo = 'Compra';
-            $producto->cantidad = $request->input('cantidad');
-            $producto->save();
+            $inventario = new Inventario();
+            $inventario->producto_id = $request->input('producto_id');
+            $inventario->fecha_entrada = now();
+            $inventario->fecha_salida = null;
+            $inventario->movimiento = 'Entrada';
+            $inventario->motivo = 'Compra';
+            $inventario->cantidad = $request->input('cantidad');
+            $inventario->cantidad_movimiento = $request->input('cantidad');
+            $inventario->save();
         }
 
         //cambiar el precio de venta del producto
@@ -163,18 +167,25 @@ class CompraController extends Controller
         $diferenciaCantidad = $request->input('cantidad') - $cantidadOriginal;
     
         // Actualizar la cantidad en el inventario
-        $producto = Inventario::where('producto_id', $request->input('producto_id'))->first();
-        if ($producto) {
-            $producto->cantidad += $diferenciaCantidad;
-            $producto->save();
+        $inventario = Inventario::where('producto_id', $request->input('producto_id'))->first();
+        if ($inventario) {
+            $inventario->cantidad += $diferenciaCantidad;
+            $inventario->fecha_entrada = now();
+            $inventario->fecha_salida = null;
+            $inventario->movimiento = 'Entrada';
+            $inventario->motivo = 'Compra actualizada';
+            $inventario->cantidad_movimiento = $diferenciaCantidad;           
+            $inventario->save();
         } else {
-            $producto = new Inventario();
-            $producto->producto_id = $request->input('producto_id');
-            $producto->fecha_entrada = now();
-            $producto->movimiento = 'Entrada';
-            $producto->motivo = 'Compra';
-            $producto->cantidad = $request->input('cantidad');
-            $producto->save();
+            $inventario = new Inventario();
+            $inventario->producto_id = $request->input('producto_id');
+            $inventario->fecha_entrada = now();
+            $inventario->fecha_salida = null;
+            $inventario->movimiento = 'Entrada';
+            $inventario->motivo = 'Compra';
+            $inventario->cantidad = $request->input('cantidad');
+            $inventario->cantidad_movimiento = $request->input('cantidad');
+            $inventario->save();
         }
     
         // Cambiar el precio de venta del producto
@@ -192,20 +203,25 @@ class CompraController extends Controller
     public function destroy(Compra $compra)
     {
         // Obtener el producto asociado a la compra
-        $producto = Inventario::where('producto_id', $compra->producto_id)->first();
+        $inventario = Inventario::where('producto_id', $compra->producto_id)->first();
     
         // Verificar si el producto existe en el inventario
-        if ($producto) {
+        if ($inventario) {
             // Revertir la cantidad de la compra en el inventario
-            $producto->cantidad -= $compra->cantidad;
+            $inventario->cantidad -= $compra->cantidad;
+            $inventario->fecha_entrada = now();
+            $inventario->fecha_salida = null;
+            $inventario->movimiento = 'Entrada';
+            $inventario->motivo = 'Compra revertida';
+            $inventario->cantidad_movimiento = $compra->cantidad;
     
             // Asegurarse de que la cantidad no sea negativa
-            if ($producto->cantidad < 0) {
-                $producto->cantidad = 0;
+            if ($inventario->cantidad < 0) {
+                $inventario->cantidad = 0;
             }
     
             // Guardar los cambios en el inventario
-            $producto->save();
+            $inventario->save();
         }
     
         // Eliminar la compra

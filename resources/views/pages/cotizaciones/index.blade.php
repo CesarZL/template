@@ -24,7 +24,6 @@ $table->timestamps(); --}}
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Cliente</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Fecha de cotización</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Vigencia</th>
-                                    {{-- <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Comentarios</th> --}}
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Acciones</th>
                                 </tr>
                             </thead>
@@ -37,9 +36,9 @@ $table->timestamps(); --}}
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $cotizacion->cliente->nombre }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $cotizacion->fecha_cot }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $cotizacion->vigencia }}</td>
-                                        {{-- <td class="px-6 py-4 whitespace-nowrap">{{ $cotizacion->comentarios }}</td> --}}
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <a class="text-blue-600 hover:text-blue-900" href="{{ route('cotizaciones.show', $cotizacion->id) }}">Ver</a>
+                                            <a class="text-green-600 hover:text-green-900 ml-4" href="{{ route('cotizaciones.pdf', $cotizacion->id) }}">PDF</a>
                                             <a class="text-yellow-600 hover:text-yellow-900 ml-4" href="{{ route('cotizaciones.edit', $cotizacion->id) }}">Editar</a>
                                             <a href="{{ route('cotizaciones.destroy', $cotizacion) }}" class="text-red-600 hover:text-red-900 ml-4" data-confirm-delete="true">
                                                 Borrar

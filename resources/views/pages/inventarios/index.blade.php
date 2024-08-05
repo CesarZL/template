@@ -25,7 +25,8 @@
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Fecha salida</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Movimiento</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Motivo</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Cantidad</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Stock</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Ultimo movimiento</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">Acciones</th>
                                 </tr>
                             </thead>
@@ -34,11 +35,12 @@
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $inventario->producto->nombre }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $inventario->producto->categoria->nombre }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $inventario->fecha_entrada }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $inventario->fecha_salida }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $inventario->fecha_entrada ?? 'N/A' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $inventario->fecha_salida ?? 'N/A' }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $inventario->movimiento }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $inventario->motivo }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $inventario->cantidad }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $inventario->cantidad_movimiento }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <a href="{{ route('inventarios.show', $inventario->id) }}" class="text-blue-600 hover:text-blue-900">Ver</a>
                                         <a href="{{ route('inventarios.edit', $inventario->id) }}" class="text-yellow-600 hover:text-yellow-900 ml-4">Editar</a>
